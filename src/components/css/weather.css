@@ -1,0 +1,17 @@
+.box {
+    padding: 20px;
+}
+.input-data {
+    font-size: 20px;
+    border-radius: 20px;
+    padding: 11px;
+    margin-right: 10px;
+    
+}
+.button-search {
+    font-size: 20px;
+    border-radius: 9px;
+    color: white;
+    background: green;
+}
+
