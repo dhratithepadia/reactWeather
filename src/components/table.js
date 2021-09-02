@@ -1,37 +1,48 @@
 import React from 'react';
 import './css/table.css';
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 export const Table = ({ cityData }) => {
     const history = useHistory();
-    const headerKeys = ['CITY-NAME', "MIN_TEMP", "MAX_TEMP", "LONGTITUDE", "LATITUDE", "DAYS"];
-    const selectedDaysHandler = (e)=> {
-        history.push('/days');
+    const headerKeys = ['State', "City", "Country", "Rank", "DAYS"];
+    const selectedDaysHandler = (e, city) => {
+        history.push(
+            {
+                pathname: '/days',
+                state: {
+                    days: e.target.value,
+                    key: city.Key
+                },
+            });
     }
     return <div className="table-container">
-        {Object.keys(cityData).length && <table>
+        {cityData.length && <table>
             <tr>
                 {headerKeys.map((key, i) => {
                     return <th key={i}>{key}</th>
                 })}
             </tr>
             <React.Fragment>
-                <tr >
-                    <td>{cityData.name}</td>
-                    <td>{cityData.main.temp_min}</td>
-                    <td>{cityData.main.temp_max}</td>
-                    <td>{cityData.coord.lon}</td>
-                    <td>{cityData.coord.lat}</td>
-                    <td>
-                        <select name="days" id="days"
-                        onChange={selectedDaysHandler}>
-                            <option value="1day">1 Days</option>
-                            <option value="5day" >5 Days</option>
-                            <option value="10day">10 Days</option>
-                            <option value="15day">15 Days</option>
-                        </select>
-                    </td>
+                {cityData.map((city, i) => {
+                    return (
+                        <tr>
+                            <td>{city.AdministrativeArea.LocalizedName}</td>
+                            <td>{city.LocalizedName}</td>
+                            <td>{city.Country.LocalizedName}</td>
+                            <td>{city.Rank}</td>
+                            <td>
+                                <select name="days" id="days"
+                                    onChange={(e)=> {selectedDaysHandler(e, city)}}>
+                                    <option value="1day">1 Days</option>
+                                    <option value="5day" >5 Days</option>
+                                    <option value="10day">10 Days</option>
+                                    <option value="15day">15 Days</option>
+                                </select>
+                            </td>
+                        </tr>
 
-                </tr>
+                    )
+                })}
+
             </React.Fragment>
         </table>}
     </div>

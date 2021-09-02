@@ -5,28 +5,23 @@ import {Table} from './table';
 const Weather = ()=>{
 
 const [cityData ,setCityData] = useState([]); 
-const [search ,setSearch] = useState("mumbai");
 const [searchValue, setSearchValue] = useState("mumbai")
-
-const searchHandler = (e)=> {
-    setSearch(searchValue);
-}
 
 useEffect( () =>{
     const fetchApi = async() => {
-        const url = `http://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&appid=aa53c6f1adbb85fef86618375087acb6`
+        const url = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=s6GKrcurx7Fw9IVdr5cYviAEL5oYIdQ8&q=${searchValue}`
         const response = await fetch(url);
         const resJson = await response.json()
-        console.log(resJson)
         setCityData(resJson);
     }
     fetchApi();
-},[search] )
+},[searchValue] )
 
     return(
         <>
         <div className="box">
             <div className="inputField">
+                <label className="search-label">Search: </label>
                 <input
                 type="search"
                 className="input-data"
@@ -36,7 +31,6 @@ useEffect( () =>{
                      } 
                 }
                 />
-                <button className="button-search" onClick={searchHandler}>Search</button>
             </div>
             <Table cityData={cityData}></Table>
         </div>
